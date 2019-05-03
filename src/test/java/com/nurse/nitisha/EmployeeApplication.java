@@ -107,7 +107,7 @@ public class EmployeeApplication{
 							departmentRepository.save(department);
 							for(Task task: tasks) {
 								task.setNurse(nurses[1]);
-								task.setDepartmant(department);
+								task.setDepartment(department);
 								taskRepository.save(task);
 							}
 						}

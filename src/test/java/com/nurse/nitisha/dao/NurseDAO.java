@@ -23,7 +23,14 @@ public class NurseDAO {
 	
 	/* to search nurse*/
 	
-
+	public Nurse getNurseByUserName(String username) {
+		for(Nurse nurse: nurseRepository.getByUsername(username)) {
+			return nurse;
+		}
+		return null;
+	}
+	
+	
 	public List<Nurse> findAll(){
 		return nurseRepository.findAll();
 	}

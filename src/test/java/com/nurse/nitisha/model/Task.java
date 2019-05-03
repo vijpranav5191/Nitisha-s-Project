@@ -45,7 +45,7 @@ public class Task {
 	
 	@ManyToOne
 	@JoinColumn
-	private Department departmant;
+	private Department department;
 	
 	private Date createDate;
 	
@@ -82,11 +82,7 @@ public class Task {
 	}
 
 	public Department getDepartmant() {
-		return departmant;
-	}
-
-	public void setDepartmant(Department departmant) {
-		this.departmant = departmant;
+		return department;
 	}
 
 	public Nurse getNurse() {
@@ -96,5 +92,14 @@ public class Task {
 	public void setNurse(Nurse nurse) {
 		this.nurse = nurse;
 	}
+
+	public Department getDepartment() {
+		return department;
+	}
+
+	public void setDepartment(Department department) {
+		this.department = department;
+	}
+	
 }
 

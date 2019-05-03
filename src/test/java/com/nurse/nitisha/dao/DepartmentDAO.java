@@ -20,6 +20,14 @@ public class DepartmentDAO {
 		return departmentRepository.save(department);
 	}
 	
+	public Department getDepartment(String dept){
+		List<Department> depts = departmentRepository.getByDepartmentName(dept);
+		for(Department d: depts) {
+			return d;
+		}
+		return null;
+	}
+	
 	/* to search nurse*/
 	
 	public List<Department> findAll(){

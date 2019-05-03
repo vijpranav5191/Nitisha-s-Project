@@ -16,9 +16,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.nurse.nitisha.dao.NurseDAO;
+import com.nurse.nitisha.model.Department;
 import com.nurse.nitisha.model.Nurse;
+import com.nurse.nitisha.model.Task;
+import com.nurse.nitisha.objects.AddTaskRequest;
 import com.nurse.nitisha.objects.LoginRequest;
+import com.nurse.nitisha.repository.DepartmentRepository;
+import com.nurse.nitisha.repository.TaskRepository;
 import com.nurse.nitisha.response.LoginResponse;
+import com.nurse.nitisha.response.TaskResponse;
 import com.nurse.nitisha.utils.Utils;
 
 @RestController
@@ -27,6 +33,12 @@ public class NurseController {
 	
 	@Autowired
 	NurseDAO nurseDAO;
+	
+	@Autowired
+	TaskRepository taskRepository;
+	
+	@Autowired
+	DepartmentRepository departmentRepository;
 	
 	/*save nurse to database*/
 	
@@ -41,6 +53,66 @@ public class NurseController {
 		return nurseDAO.findAll();
 	}
 	
+	@GetMapping("/tasks/{username}/{dept}")
+	public TaskResponse getTask(@PathVariable(value = "username") String username, @PathVariable(value = "dept") String dept){
+		Nurse nurse = nurseDAO.getNurseByUserName(username);
+		Department department = null;
+		List<Department> depts = departmentRepository.getByDepartmentName(dept);
+		for(Department d: depts) {
+			department =  d;
+			break;
+		}
+		List<Task> tasksByNurse = taskRepository.getByNurse(nurse);
+		List<Task> tasksByDepartment = taskRepository.getByDepartment(department);
+		tasksByNurse.addAll(tasksByDepartment);
+		
+		TaskResponse taskResponse = new TaskResponse();
+		taskResponse.tasks = tasksByNurse;
+		taskResponse.nurse = nurse;
+		return taskResponse;
+	}
+	
+	@GetMapping("/tasks/{username}")
+	public TaskResponse getTask(@PathVariable(value = "username") String username){
+		Nurse nurse = nurseDAO.getNurseByUserName(username);
+		List<Task> tasksByNurse = taskRepository.getByNurse(nurse);
+		TaskResponse taskResponse = new TaskResponse();
+		taskResponse.tasks = tasksByNurse;
+		taskResponse.nurse = nurse;
+		return taskResponse;
+	}
+	
+	@PostMapping("/addItem")
+	public Task addTask(@Valid @RequestBody AddTaskRequest addTaskRequest){
+		Nurse nurse = nurseDAO.getNurseByUserName(addTaskRequest.username);
+		Task task = new Task(addTaskRequest.taskDetails, addTaskRequest.taskType);
+		Department department = null;
+		List<Department> depts = departmentRepository.getByDepartmentName(addTaskRequest.dept);
+		for(Department d: depts) {
+			department =  d;
+			break;
+		}
+		task.setNurse(nurse);
+		task.setDepartment(department);
+		return taskRepository.save(task);
+	}
+	
+	
+	@PostMapping("/updateItem")
+	public Task updateTask(@Valid @RequestBody AddTaskRequest addTaskRequest){
+		Task task = taskRepository.getOne(addTaskRequest.id);
+		if(addTaskRequest.username != null) {
+			Nurse nurse = nurseDAO.getNurseByUserName(addTaskRequest.username);
+			task.setNurse(nurse);
+		}
+		if(addTaskRequest.taskDetails != null) {
+			task.setTaskDetails(addTaskRequest.taskDetails);
+		}
+		if(addTaskRequest.taskType != null) {
+			task.setTaskType(addTaskRequest.taskType);
+		}
+		return taskRepository.save(task);
+	}
 	
 	@PostMapping("/login")
 	public LoginResponse loginNurse(@Valid @RequestBody LoginRequest loginrequest) {

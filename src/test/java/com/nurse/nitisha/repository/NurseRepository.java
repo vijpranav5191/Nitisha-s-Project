@@ -9,5 +9,7 @@ import com.nurse.nitisha.model.Nurse;
 public interface NurseRepository extends JpaRepository<Nurse, Long>{
 
 	List<Nurse> getByUsernameAndPassword(String username, String password);
+	
+	List<Nurse> getByUsername(String username);
 }
 
