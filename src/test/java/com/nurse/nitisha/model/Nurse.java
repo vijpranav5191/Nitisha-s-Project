@@ -23,6 +23,13 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 @Table(name="Nurse")
 @EntityListeners(AuditingEntityListener.class)
 public class Nurse {
+	public Nurse(){}
+	
+	public Nurse(String name, String username, String password){
+		this.name = name;
+		this.username = username;
+		this.password = password;
+	}
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
@@ -40,6 +47,7 @@ public class Nurse {
 	@ManyToOne
 	@JoinColumn
 	private Nurse supervisor;
+	
 	
 	@Temporal(TemporalType.TIMESTAMP)
 	@LastModifiedDate

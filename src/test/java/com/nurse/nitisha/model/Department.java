@@ -1,6 +1,6 @@
 package com.nurse.nitisha.model;
 
-import java.sql.Date;
+import java.util.Date;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -21,7 +21,14 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 @EntityListeners(AuditingEntityListener.class)
 
 public class Department {
-
+	public Department(){}
+	
+	public Department(String departmentName, Facility facility) {
+		this.facility = facility;
+		this.departmentName = departmentName;
+		this.createDate = new Date();
+	}
+	
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private long id;
@@ -29,7 +36,7 @@ public class Department {
 	@NotBlank
 	private String departmentName;
 	
-	@NotBlank
+	
 	private Date createDate;
 	
 	@ManyToOne

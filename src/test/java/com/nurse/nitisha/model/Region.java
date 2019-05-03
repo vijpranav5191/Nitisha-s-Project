@@ -11,6 +11,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.Null;
 
 import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -19,6 +20,15 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 @Table(name="Region")
 @EntityListeners(AuditingEntityListener.class)
 public class Region {
+	
+	public Region(){}
+	
+	public Region(String regionName, String city){
+		this.regionName = regionName;
+		this.city = city;
+		this.createDate = new Date();
+	}
+	
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private long id;
@@ -27,9 +37,8 @@ public class Region {
 	private String regionName;
 
 	@NotBlank
-	private long city;
+	private String city;
 	
-	@NotBlank
 	private Date createDate;
 	
 	
@@ -49,11 +58,11 @@ public class Region {
 		this.regionName = regionName;
 	}
 
-	public long getCity() {
+	public String getCity() {
 		return city;
 	}
 
-	public void setCity(long city) {
+	public void setCity(String city) {
 		this.city = city;
 	}
 

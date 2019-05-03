@@ -1,6 +1,6 @@
 package com.nurse.nitisha.model;
 
-import java.sql.Date;
+import java.util.Date;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -22,19 +22,26 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 @EntityListeners(AuditingEntityListener.class)
 
 public class Facility {
-
+	public Facility(){}
+	
+	public Facility(String address, Region region){
+		this.address = address;
+		this.region = region;
+		this.createDate = new Date();
+	}
+	
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private long id;
 
 	@NotBlank
-	private String Address;
+	private String address;
 	
 	@ManyToOne
 	@JoinColumn
 	private Region region;
 	
-	@NotBlank
+
 	private Date createDate;
 	
 	public Date getCreateDate() {
@@ -62,10 +69,10 @@ public class Facility {
 	}
 	
 	public String getAddress() {
-		return Address;
+		return address;
 	}
 
 	public void setAddress(String address) {
-		Address = address;
+		this.address = address;
 	}
 }

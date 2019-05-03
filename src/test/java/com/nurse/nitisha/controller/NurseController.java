@@ -76,4 +76,4 @@ public class NurseController {
 		return ResponseEntity.ok().build();
 	}
 
-	}
+}

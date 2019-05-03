@@ -21,7 +21,14 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 @Table(name="Task")
 @EntityListeners(AuditingEntityListener.class)
 public class Task {
- 
+	public Task(){}
+	
+	public Task(String taskDetails, String taskType){
+		this.taskDetails = taskDetails;
+		this.taskType = taskType;
+		this.createDate = new Date();
+	}
+	
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private long id;
@@ -34,9 +41,12 @@ public class Task {
 	
 	@ManyToOne
 	@JoinColumn
+	private Nurse nurse;
+	
+	@ManyToOne
+	@JoinColumn
 	private Department departmant;
 	
-	@NotBlank
 	private Date createDate;
 	
 	public Date getCreateDate() {
@@ -79,7 +89,12 @@ public class Task {
 		this.departmant = departmant;
 	}
 
+	public Nurse getNurse() {
+		return nurse;
+	}
 
-	
+	public void setNurse(Nurse nurse) {
+		this.nurse = nurse;
+	}
 }
 
