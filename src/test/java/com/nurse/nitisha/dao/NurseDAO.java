@@ -13,7 +13,7 @@ import com.nurse.nitisha.repository.NurseRepository;
 public class NurseDAO {
 
 	@Autowired
-	NurseRepository nurseRepository;
+	public NurseRepository nurseRepository;
 	
 	/* to save nurse */
 	

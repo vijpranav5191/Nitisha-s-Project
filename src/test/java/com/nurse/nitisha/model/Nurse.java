@@ -19,16 +19,20 @@ import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import com.nurse.nitisha.utils.Utils;
+
 @Entity
 @Table(name="Nurse")
 @EntityListeners(AuditingEntityListener.class)
 public class Nurse {
+	
 	public Nurse(){}
 	
 	public Nurse(String name, String username, String password){
 		this.name = name;
 		this.username = username;
-		this.password = password;
+		this.password = Utils.genHash(password);
+		this.token = Utils.genHash(username + password);
 	}
 
 	@Id
@@ -43,6 +47,9 @@ public class Nurse {
 	
 	@NotBlank
 	private String password;
+	
+	@NotBlank
+	private String token;
 	
 	@ManyToOne
 	@JoinColumn
@@ -99,6 +106,15 @@ public class Nurse {
 
 	public void setSupervisor(Nurse supervisor) {
 		this.supervisor = supervisor;
+	}
+
+	public String getToken() {
+		return token;
+	}
+
+	public void setToken(String token) {
+		this.token = token;
 	}	
+	
 }
 

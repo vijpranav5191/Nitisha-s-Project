@@ -17,9 +17,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.nurse.nitisha.dao.NurseDAO;
 import com.nurse.nitisha.model.Nurse;
+import com.nurse.nitisha.objects.LoginRequest;
+import com.nurse.nitisha.response.LoginResponse;
+import com.nurse.nitisha.utils.Utils;
 
 @RestController
-@RequestMapping("/task")
+@RequestMapping("/nurse")
 public class NurseController {
 	
 	@Autowired
@@ -36,6 +39,24 @@ public class NurseController {
 	@GetMapping("/nurse")	
 	public List<Nurse> getAllNurses(){
 		return nurseDAO.findAll();
+	}
+	
+	
+	@PostMapping("/login")
+	public LoginResponse loginNurse(@Valid @RequestBody LoginRequest loginrequest) {
+		String password = Utils.genHash(loginrequest.password);
+		String username = loginrequest.username;
+		
+		List<Nurse> nurses = nurseDAO.nurseRepository.getByUsernameAndPassword(username, password);
+		for(Nurse nurse: nurses) {
+			LoginResponse response = new LoginResponse();
+			response.name = nurse.getName();
+			response.username = nurse.getUsername();
+			response.token = nurse.getToken();
+			response.supervisorId = "" + nurse.getSupervisor().getId();
+			return response;
+		}
+		return null;
 	}
 	
 	/*get nurse with an id*/

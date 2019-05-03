@@ -19,6 +19,7 @@ import com.nurse.nitisha.repository.FacilityRepository;
 import com.nurse.nitisha.repository.NurseRepository;
 import com.nurse.nitisha.repository.RegionRepository;
 import com.nurse.nitisha.repository.TaskRepository;
+import com.nurse.nitisha.utils.Utils;
 
 @SpringBootApplication
 @EnableJpaAuditing
@@ -64,7 +65,7 @@ public class EmployeeApplication{
 						new Nurse("Amit", "amit", "qwerty"),
 				};
 				Nurse[] nurses = {
-						new Nurse("Pranav", "pranav", "qwerty"),
+						new Nurse("Pranav", "pvij", "qwerty"),
 						new Nurse("Manish", "manish", "qwerty"),
 						new Nurse("Ayush", "ayush", "qwerty"),
 						new Nurse("Pranjal", "pranjal", "qwerty"),
