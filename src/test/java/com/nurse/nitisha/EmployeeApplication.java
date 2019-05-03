@@ -96,10 +96,10 @@ public class EmployeeApplication{
 					regionRepository.save(region);
 					for(Facility facility: facilities) {
 						Department[] departments = {
-								new Department("Heart",facility),
-								new Department("Bone",facility),
-								new Department("Ortho",facility),
-								new Department("Gyno",facility)
+								new Department("Heart " + facility.getAddress() + " ," + region.getCity(),facility),
+								new Department("Bone " + facility.getAddress() + " ," + region.getCity(),facility),
+								new Department("Ortho " + facility.getAddress() + " ," + region.getCity(),facility),
+								new Department("Gyno " + facility.getAddress() + " ," + region.getCity(),facility)
 						};
 						facilityRepository.save(facility);
 						for(Department department: departments) {

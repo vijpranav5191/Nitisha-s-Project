@@ -62,15 +62,17 @@ public class NurseController {
 			department =  d;
 			break;
 		}
-		List<Task> tasksByNurse = taskRepository.getByNurse(nurse);
-		List<Task> tasksByDepartment = taskRepository.getByDepartment(department);
-		tasksByNurse.addAll(tasksByDepartment);
+		List<Task> tasksByNurse = taskRepository.getByDepartmentAndNurse(department, nurse);
 		
 		TaskResponse taskResponse = new TaskResponse();
 		taskResponse.tasks = tasksByNurse;
 		taskResponse.nurse = nurse;
+		taskResponse.department = department;
 		return taskResponse;
 	}
+	
+	
+	
 	
 	@GetMapping("/tasks/{username}")
 	public TaskResponse getTask(@PathVariable(value = "username") String username){
